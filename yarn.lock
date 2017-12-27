@@ -1400,6 +1400,10 @@ punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
+pushover-notifications@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/pushover-notifications/-/pushover-notifications-0.2.4.tgz#89cb94f9182c36aa59a9ac6744e49ad8aff4d067"
+
 qs@~6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"

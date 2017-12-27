@@ -32,6 +32,13 @@ If running the twitter report, make sure to add the relevant keys when running t
 In my case, I basically created a dummy twitter user, followed it back, and the reporter will DM from there.
 
 
+*Pushover*
+https://pushover.net application.
+relevant keys when running the process:
+`PUSHOVER_USER`
+`PUSHOVER_TOKEN`
+
+
 
 ### Ongoing execution
 I imagine there are multiple options. I just run this on a linux cron every 5 minutes..
