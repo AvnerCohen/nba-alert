@@ -39,11 +39,10 @@ relevant keys when running the process:
 `PUSHOVER_TOKEN`
 
 
-
 ### Ongoing execution
-I imagine there are multiple options. I just run this on a linux cron every 5 minutes..
+```sh
+nohup node nba_alert.js >> ./log/nba-alert.log &
+```
 
-
-In the future, I might consider more "reporters", right now, a twitter DM is used as a notification channel.
 
 Enjoy.

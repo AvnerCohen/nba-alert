@@ -2,6 +2,7 @@
   "dependencies": {
     "commander": "^2.12.2",
     "nba-go": "^0.2.2",
+    "node-schedule": "^1.2.5",
     "pushover-notifications": "^0.2.4",
     "request": "^2.83.0",
     "twitter": "^1.7.1"
