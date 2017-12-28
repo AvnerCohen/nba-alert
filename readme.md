@@ -41,7 +41,8 @@ relevant keys when running the process:
 
 ### Ongoing execution
 ```sh
-nohup node nba_alert.js >> ./log/nba-alert.log &
+yarn install nba-alert
+nohup ./bin/nba_alert.js >> ./log/nba-alert.log &
 ```
 
 
