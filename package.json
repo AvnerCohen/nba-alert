@@ -1,6 +1,6 @@
 {
    "name": "nba-alert",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Get alerts on close NBA games of your favorite teams.",
     "main": "nba_alert.js",
     "author": "Avner Cohen",

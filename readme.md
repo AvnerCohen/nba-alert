@@ -20,30 +20,31 @@ What is A close game is configurable (default is 5 points diff as of minute 40:0
 ```
 
 
-## Reporters
+## Reporters / Notification 
 
-*Twitter*
+#### Twitter
 If running the twitter report, make sure to add the relevant keys when running the process:
-`TWITTER_CONSUMER_KEY`
-`TWITTER_CONSUMER_SECRET`
-`TWITTER_ACCESS_TOKEN_KEY`
-`TWITTER_ACCESS_TOKEN_SECRET`
 
-In my case, I basically created a dummy twitter user, followed it back, and the reporter will DM from there.
+* `TWITTER_CONSUMER_KEY`
+* `TWITTER_CONSUMER_SECRET`
+* `TWITTER_ACCESS_TOKEN_KEY`
+* `TWITTER_ACCESS_TOKEN_SECRET`
 
-
-*Pushover*
-https://pushover.net application.
-relevant keys when running the process:
-`PUSHOVER_USER`
-`PUSHOVER_TOKEN`
+One option here is creating a dummy twitter user, follow it and back, and use the reporter will DM from that user into your account.
 
 
-### Ongoing execution
-```sh
-yarn install nba-alert
-nohup ./bin/nba_alert.js >> ./log/nba-alert.log &
-```
+#### Pushover
+https://pushover.net application, Relevant keys when running the process:
+
+* `PUSHOVER_USER`
+* `PUSHOVER_TOKEN`
 
 
-Enjoy.
+## Command
+````
+yarn add nba-alert
+nohup ./node_modules/.bin/nba_alert >> ./log/nba-alert.log &
+````
+
+## License
+MIT
