@@ -1,8 +1,8 @@
 # NBA Alerts
 
-Can be used if you want, during non-playoff season, to get alerts on close games.
+Get alerts on close NBA games of your favorite teams.
 
-What is A close game is configurable (default is 5 points diff a of minute 40:00)
+What is A close game is configurable (default is 5 points diff as of minute 40:00)
 
 
 ```

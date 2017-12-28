@@ -1,4 +1,4 @@
-'use strict'
+#!/usr/bin/env node
 
 const fs = require('fs');
 const request = require('request');
@@ -17,7 +17,7 @@ program
   .parse(process.argv);
 
 const REPORTER_CLASS = program.reporter || "twitter";
-const reporter = require('./reporters/' + REPORTER_CLASS + ".js");
+const reporter = require('../reporters/' + REPORTER_CLASS + ".js");
 const ALERT_AFTER_MINUTE = program.minute || 40;
 const DIFF_LESS_THAN = program.diff || 5;
 const teams = program.teams || ['OKC', 'TOR', 'GSW'];

@@ -1,4 +1,17 @@
 {
+   "name": "nba-alert",
+    "version": "1.0.0",
+    "description": "Get alerts on close NBA games of your favorite teams.",
+    "main": "nba_alert.js",
+    "author": "Avner Cohen",
+    "keywords": ["NBA", "Notifications", "Alerts"],
+    "repository" : {
+        "type": "git",
+        "url": "git@github.com:AvnerCohen/nba-alert.git"
+    },
+    "bin": {
+        "nba_alert": "./bin/nba_alert.js"
+    },
   "dependencies": {
     "commander": "^2.12.2",
     "nba-go": "^0.2.2",
