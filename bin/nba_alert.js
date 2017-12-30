@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const createLogger = require('logging');
+const logger = createLogger.default('nba_alert');
 
 const fs = require('fs');
 const request = require('request');
@@ -20,38 +22,37 @@ const REPORTER_CLASS = program.reporter || "twitter";
 const reporter = require('../reporters/' + REPORTER_CLASS + ".js");
 const ALERT_AFTER_MINUTE = program.minute || 40;
 const DIFF_LESS_THAN = program.diff || 5;
-const teams = program.teams || ['OKC', 'TOR', 'GSW'];
+const teams = program.teams || ['OKC', 'TOR', 'GSW', 'CLE'];
 
 var I_FOLLOW = {};
 for (var team in teams) {
   I_FOLLOW[teams[team].toUpperCase()] = true;
 }
 
+logger.info('Following: ', I_FOLLOW);
+
 function performRequest () {
-  request(URL_CURRENT_GAMES, function(error, response, body) {
-    // Check if any of games played today are being followed:
+  request(requestUrl(URL_CURRENT_GAMES), function(error, response, body) {
     var data = JSON.parse(body);
     for (var game in data["gs"]["g"]) {
-
-      if (I_FOLLOW[data["gs"]["g"][game]['v']['ta']] ||
-        I_FOLLOW[data["gs"]["g"][game]['h']['ta']]) {
-        doesScoreWorthWakingUp(data["gs"]["g"][game]);
+      var curGame = data["gs"]["g"][game];
+      if (I_FOLLOW[curGame['v']['ta']] || I_FOLLOW[curGame['h']['ta']]) {
+        logger.info('Checking score for game: ', curGame['v']['ta'], '@' , curGame['h']['ta']);
+        doesScoreWorthWakingUp(curGame);
       }
     }
   });
 }
 
-
 function list(val) {
   return val.split(',');
 }
 
-
 function doesScoreWorthWakingUp(gameData) {
   var gid = gameData['gid'];
-  var pbp_url = PBP_URL.replace('GID', gameData['gid']).replace('DATE', gameData['gcode'].split("/")[0]);
-  console.log("Checking play status at: " + pbp_url);
-  request(pbp_url, function(error, response, body) {
+  var pbpUrl = PBP_URL.replace('GID', gameData['gid']).replace('DATE', gameData['gcode'].split("/")[0]);
+  logger.debug('Checking play status at: ', pbpUrl);
+  request(requestUrl(pbpUrl), function(error, response, body) {
     try {
       var shouldAlert = false;
       var fullData = JSON.parse(body);
@@ -65,7 +66,7 @@ function doesScoreWorthWakingUp(gameData) {
         var event = data[item];
         var visitorScore = parseInt(event.visitor_score, 10);
         var homeScore = parseInt(event.home_score, 10);
-        if (event.clock === '' ) {
+        if (event.clock === '') {
           var cur_minutes = (event.description == 'Start Period') ? 12 : 0;
         } else {
           var cur_minutes = event.clock.split(':')[0];
@@ -74,6 +75,8 @@ function doesScoreWorthWakingUp(gameData) {
         var time = ((parseInt(event.period) - 1) * 12) + minutes;
         var fileName = "./alerts_log/" + gid + ".alert";
         var alertSent = fs.existsSync(fileName);
+        logger.debug('Is time right for alert: ', (time > ALERT_AFTER_MINUTE));
+        logger.debug('Is score right for alert: ', Math.abs(visitorScore - homeScore) < DIFF_LESS_THAN);
         if (!alertSent && time > ALERT_AFTER_MINUTE &&
              Math.abs(visitorScore - homeScore) < DIFF_LESS_THAN) {
           shouldAlert = true;
@@ -88,11 +91,19 @@ function doesScoreWorthWakingUp(gameData) {
         }
       }
     } catch (e) {
-      console.log("Failed for :" + gameData['gcode'] + " with:" + e);
+      // Ignore errors on the api level
     }
   });
 }
 
-schedule.scheduleJob('*/5 16-23 * * *', () => {
+function requestUrl(url) {
+  return {url: url,
+    headers: {
+      'User-Agent': 'NBA-Alert - https://github.com/AvnerCohen/nba-alert'
+    }
+  };
+}
+
+schedule.scheduleJob('*/2 * * * *', () => {
   performRequest();
 });
