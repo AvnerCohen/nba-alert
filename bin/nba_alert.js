@@ -62,33 +62,32 @@ function doesScoreWorthWakingUp(gameData) {
       var home = teams.substr(3, 3);
 
       var event = data[Object.keys(data)[Object.keys(data).length - 1]];
-      for (var item in Object.keys(data)) {
-        var event = data[item];
-        var visitorScore = parseInt(event.visitor_score, 10);
-        var homeScore = parseInt(event.home_score, 10);
-        if (event.clock === '') {
-          var cur_minutes = (event.description == 'Start Period') ? 12 : 0;
-        } else {
-          var cur_minutes = event.clock.split(':')[0];
-        }
-        var minutes = 12 - parseInt(cur_minutes, 10);
-        var time = ((parseInt(event.period) - 1) * 12) + minutes;
-        var fileName = "./alerts_log/" + gid + ".alert";
-        var alertSent = fs.existsSync(fileName);
-        logger.debug('Is time right for alert: ', (time > ALERT_AFTER_MINUTE));
-        logger.debug('Is score right for alert: ', Math.abs(visitorScore - homeScore) < DIFF_LESS_THAN);
-        if (!alertSent && time > ALERT_AFTER_MINUTE &&
-             Math.abs(visitorScore - homeScore) < DIFF_LESS_THAN) {
-          shouldAlert = true;
-          fs.closeSync(fs.openSync(fileName, 'w'));
-        }
-        var printData = "[" + time + "] " + visitor + ": " + visitorScore + " - ";
-        printData += home + ": " + homeScore;
-        if (shouldAlert) {
-          var reportStr = "wakey-wakey! " + printData;
-          reporter.report(program.username, reportStr);
-          shouldAlert = false;
-        }
+      var event = data[item];
+      var visitorScore = parseInt(event.visitor_score, 10);
+      var homeScore = parseInt(event.home_score, 10);
+      if (event.clock === '') {
+        var cur_minutes = (event.description == 'Start Period') ? 12 : 0;
+      } else {
+        var cur_minutes = event.clock.split(':')[0];
+      }
+      var minutes = 12 - parseInt(cur_minutes, 10);
+      var time = ((parseInt(event.period) - 1) * 12) + minutes;
+      var fileName = "./alerts_log/" + gid + ".alert";
+      var alertSent = fs.existsSync(fileName);
+      logger.debug('Is time right for alert: ', (time > ALERT_AFTER_MINUTE));
+      logger.debug('Is score right for alert: ', Math.abs(visitorScore - homeScore) < DIFF_LESS_THAN);
+      if (!alertSent && time > ALERT_AFTER_MINUTE &&
+           Math.abs(visitorScore - homeScore) < DIFF_LESS_THAN) {
+        shouldAlert = true;
+        fs.closeSync(fs.openSync(fileName, 'w'));
+      }
+      var printData = "[" + time + "] " + visitor + ": " + visitorScore + " - ";
+      printData += home + ": " + homeScore;
+      if (shouldAlert) {
+        logger.debug('SEND ALERT');
+        var reportStr = "wakey-wakey! " + printData;
+        reporter.report(program.username, reportStr);
+        shouldAlert = false;
       }
     } catch (e) {
       // Ignore errors on the api level
