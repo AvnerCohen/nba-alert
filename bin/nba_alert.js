@@ -37,7 +37,7 @@ function performRequest () {
     for (var game in data["gs"]["g"]) {
       var curGame = data["gs"]["g"][game];
       if (I_FOLLOW[curGame['v']['ta']] || I_FOLLOW[curGame['h']['ta']]) {
-        logger.info('Checking score for game: ', curGame['v']['ta'], '@' , curGame['h']['ta']);
+        logger.debug('Checking score for game: ', curGame['v']['ta'], '@' , curGame['h']['ta']);
         doesScoreWorthWakingUp(curGame);
       }
     }
@@ -51,7 +51,7 @@ function list(val) {
 function doesScoreWorthWakingUp(gameData) {
   var gid = gameData['gid'];
   var pbpUrl = PBP_URL.replace('GID', gameData['gid']).replace('DATE', gameData['gcode'].split("/")[0]);
-  logger.debug('Checking play status at: ', pbpUrl);
+  logger.info('Checking play status at: ', pbpUrl);
   request(requestUrl(pbpUrl), function(error, response, body) {
     try {
       var shouldAlert = false;
@@ -74,8 +74,8 @@ function doesScoreWorthWakingUp(gameData) {
       var time = ((parseInt(event.period) - 1) * 12) + minutes;
       var fileName = "./alerts_log/" + gid + ".alert";
       var alertSent = fs.existsSync(fileName);
-      logger.debug('Is time right for alert: ', (time > ALERT_AFTER_MINUTE));
-      logger.debug('Is score right for alert: ', Math.abs(visitorScore - homeScore) < DIFF_LESS_THAN);
+      logger.info('Is time right for alert: ', time, (time > ALERT_AFTER_MINUTE));
+      logger.info('Is score right for alert: ', Math.abs(visitorScore - homeScore) < DIFF_LESS_THAN);
       if (!alertSent && time > ALERT_AFTER_MINUTE &&
            Math.abs(visitorScore - homeScore) < DIFF_LESS_THAN) {
         shouldAlert = true;
@@ -84,7 +84,7 @@ function doesScoreWorthWakingUp(gameData) {
       var printData = "[" + time + "] " + visitor + ": " + visitorScore + " - ";
       printData += home + ": " + homeScore;
       if (shouldAlert) {
-        logger.debug('SEND ALERT');
+        logger.info('SEND ALERT');
         var reportStr = "wakey-wakey! " + printData;
         reporter.report(program.username, reportStr);
         shouldAlert = false;

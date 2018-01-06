@@ -1,13 +1,14 @@
 {
     "name": "nba-alert",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Get alerts on close NBA games of your favorite teams.",
     "main": "nba_alert.js",
     "author": "Avner Cohen",
     "keywords": [
         "NBA",
         "Notifications",
-        "Alerts"
+        "Alerts",
+        "Twitter", "Pushjet", "Pushover"
     ],
     "repository": {
         "type": "git",

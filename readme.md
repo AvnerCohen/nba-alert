@@ -20,7 +20,7 @@ What is A close game is configurable (default is 5 points diff as of minute 40:0
 ```
 
 
-## Reporters / Notification 
+## Reporters / Notification
 
 #### Twitter
 If running the twitter report, make sure to add the relevant keys when running the process:
@@ -38,6 +38,11 @@ https://pushover.net application, Relevant keys when running the process:
 
 * `PUSHOVER_USER`
 * `PUSHOVER_TOKEN`
+
+#### Pushjet
+https://pushjet.io/ application, environment variables when running the process:
+
+* `PUSHJET_SECRET`
 
 
 ## Command
