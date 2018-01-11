@@ -62,7 +62,6 @@ function doesScoreWorthWakingUp(gameData) {
       var home = teams.substr(3, 3);
 
       var event = data[Object.keys(data)[Object.keys(data).length - 1]];
-      var event = data[item];
       var visitorScore = parseInt(event.visitor_score, 10);
       var homeScore = parseInt(event.home_score, 10);
       if (event.clock === '') {
